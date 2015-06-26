@@ -72,6 +72,10 @@ if [ -z "$WERCKER_DOCKER_EMAIL" ]; then
   exit 1
 fi
 
+if [ -z "$WERCKER_DOCKER_REPOSITORY" ]; then
+  error "Please set the 'repository' variable"
+  exit 1
+fi
 
 # Check Docker is installed
 if ! type_exists 'docker'; then
@@ -89,6 +93,7 @@ REGISTRY="$WERCKER_DOCKER_REGISTRY"
 USERNAME="$WERCKER_DOCKER_USERNAME"
 PASSWORD="$WERCKER_DOCKER_PASSWORD"
 EMAIL="$WERCKER_DOCKER_EMAIL"
+REPOSITORY="$WERCKER_DOCKER_REPOSITORY"
 
 set -e
 # ----- Building image -----
@@ -126,9 +131,9 @@ h1 "Step 2: Tagging image(s)"
 for TAG in $TAGS
 do
   if [ -n "$REGISTRY" ]; then
-     IMAGE_TAG="$REGISTRY/$USERNAME/$IMAGE:$TAG"
+     IMAGE_TAG="$REGISTRY/$REPOSITORY/$IMAGE:$TAG"
   else
-     IMAGE_TAG="$USERNAME/$IMAGE:$TAG"
+     IMAGE_TAG="$REPOSITORY/$IMAGE:$TAG"
   fi
 
   DOCKER_TAG="docker tag $IMAGE $IMAGE_TAG"
