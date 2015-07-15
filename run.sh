@@ -55,7 +55,7 @@ gittag_to_docker_tag=",master:staging,development:development"
 set_tag() {
   DOCKER_TAG="$(expr "$gittag_to_docker_tag" : ".*,$1:\([^,]*\),.*")"
 }
-set_tag $WERCKER_DOCKER_TAGS
+set_tag $WERCKER_GIT_BRANCH
 
 #declare -A gittag_to_docker_tag=( ["master"]="-staging" ["development"]="-development")
 
