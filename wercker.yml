@@ -1,4 +1,4 @@
-box: python/weez
+box: wercker-labs/docker
 build:
   steps:
     - validate-wercker-step
