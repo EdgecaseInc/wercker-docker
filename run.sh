@@ -51,6 +51,9 @@ type_exists() {
   return 1
 }
 
+echo "git branch:"
+echo $WERCKER_GIT_BRANCH
+
 gittag_to_docker_tag=",master:staging,development:development"
 set_tag() {
   DOCKER_TAG="$(expr "$gittag_to_docker_tag" : ".*,$1:\([^,]*\),.*")"
@@ -103,6 +106,8 @@ USERNAME="$WERCKER_DOCKER_USERNAME"
 PASSWORD="$WERCKER_DOCKER_PASSWORD"
 EMAIL="$WERCKER_DOCKER_EMAIL"
 REPOSITORY="$WERCKER_DOCKER_REPOSITORY"
+
+echo 
 
 set -e
 # ----- Building image -----
