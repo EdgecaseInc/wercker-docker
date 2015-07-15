@@ -51,6 +51,14 @@ type_exists() {
   return 1
 }
 
+gittag_to_docker_tag=",master:staging,development:development"
+set_tag() {
+  DOCKER_TAG="$(expr "$gittag_to_docker_tag" : ".*,$1:\([^,]*\),.*")"
+}
+set_tag $WERCKER_DOCKER_TAGS
+
+#declare -A gittag_to_docker_tag=( ["master"]="-staging" ["development"]="-development")
+
 # Check variables
 if [ -z "$WERCKER_DOCKER_IMAGE" ]; then
   info "Please set the 'image' variable"
@@ -84,11 +92,12 @@ if ! type_exists 'docker'; then
   exit 1
 fi
 
+bash --version
 
 # Variables
 IMAGE="$WERCKER_DOCKER_IMAGE"
 IMAGE_PATH=${WERCKER_DOCKER_PATH:-.}
-TAGS=${WERCKER_DOCKER_TAGS:-latest}
+TAGS=${DOCKER_TAG:-latest}
 REGISTRY="$WERCKER_DOCKER_REGISTRY"
 USERNAME="$WERCKER_DOCKER_USERNAME"
 PASSWORD="$WERCKER_DOCKER_PASSWORD"
