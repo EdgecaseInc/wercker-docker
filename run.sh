@@ -51,16 +51,25 @@ type_exists() {
   return 1
 }
 
-echo "git branch:"
-echo $WERCKER_GIT_BRANCH
+info "git branch:"
+info "$WERCKER_GIT_BRANCH"
 
-gittag_to_docker_tag=",master:staging,development:development"
-set_tag() {
-  DOCKER_TAG="$(expr "$gittag_to_docker_tag" : ".*,$1:\([^,]*\),.*")"
-}
-set_tag $WERCKER_GIT_BRANCH
+#gittag_to_docker_tag=",master:staging,development:development"
+#set_tag() {
+#  DOCKER_TAG="$(expr "$gittag_to_docker_tag" : ".*,$1:\([^,]*\),.*")"
+#}
+#set_tag $WERCKER_GIT_BRANCH
 
-#declare -A gittag_to_docker_tag=( ["master"]="-staging" ["development"]="-development")
+
+declare -A gittag_to_docker_tag=( ["master"]="staging" ["development"]="development")
+
+#echo $WERCKER_GIT_BRANCH
+#echo git_to_docker[$WERCKER_GIT_BRANCH]
+DOCKER_TAG=${gittag_to_docker_tag[$WERCKER_GIT_BRANCH]}
+echo $DOCKER_TAG
+
+TAGS=${DOCKER_TAG:-latest}
+info "$DOCKER_TAG"
 
 # Check variables
 if [ -z "$WERCKER_DOCKER_IMAGE" ]; then
