@@ -119,6 +119,14 @@ REPOSITORY="$WERCKER_DOCKER_REPOSITORY"
 echo 
 
 set -e
+
+
+
+h1 "Step 0: Upgrade docker"
+
+curl -sSL https://get.docker.com/ubuntu/ | sudo sh
+
+
 # ----- Building image -----
 # see documentation https://docs.docker.com/reference/commandline/cli/#build
 # ---------------------------
